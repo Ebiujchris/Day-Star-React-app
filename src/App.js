@@ -7,6 +7,9 @@ import About from "./Components/About";
 import Gallery from "./Components/Gallery";
 import Contact from "./Components/Contact";
 import Signup from "./Components/signup";
+import Dashboard from "./Components/Dash";
+import Hello from "./Components/hello";
+
 
 function App() {
   return (
@@ -21,9 +24,11 @@ function App() {
               <Route path="/gallery" element={<Gallery/>} />
               <Route path="/contact" element={<Contact/>} />
               <Route path="/signup" element={<Signup/>} />
+              <Route path="/" exact component={Dashboard} />
+              <Route path="/hello" component={Hello} />
             </Routes>
 
-            <Home /> {}
+            
           </div>
         </Router>
       </div>
