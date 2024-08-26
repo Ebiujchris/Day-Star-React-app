@@ -1,4 +1,4 @@
-// src/Signup.js
+
 import React, { useState } from "react";
 import '../CSS/signup.css';
 
@@ -6,18 +6,32 @@ function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(""); // Added state to handle messages
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const data = await response.text();
-    console.log(data);
+
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json(); // Assuming server returns JSON
+        console.log(data);
+        setMessage("Registration successful!");
+      } else {
+        const errorData = await response.json(); // Assuming server returns JSON
+        setMessage(`Error: ${errorData.message || "Something went wrong"}`);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      setMessage("Network error. Please try again.");
+    }
   };
 
   return (
@@ -55,6 +69,7 @@ function Signup() {
           />
         </div>
         <button type="submit">Sign Up</button>
+        {message && <p className="message">{message}</p>} {/* Display message */}
       </form>
     </div>
   );
